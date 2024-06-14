@@ -6,6 +6,11 @@ import {
   NavigationStart,
   Router,
 } from "@angular/router";
+import { Store, select } from "@ngrx/store";
+import { AppState } from "./reducers";
+import { Observable } from "rxjs";
+import { isLoggedIn, isLoggedOut } from "./auth/auth.selectors";
+import { login, logout } from "./auth/auth.action";
 
 @Component({
   selector: "app-root",
@@ -15,9 +20,18 @@ import {
 export class AppComponent implements OnInit {
   loading = true;
 
-  constructor(private router: Router) {}
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
+
+  constructor(private router: Router, private store: Store<AppState>) { }
 
   ngOnInit() {
+    const userProfile = sessionStorage.getItem("user");
+    if (userProfile) {
+      this.store.dispatch(login({ user: JSON.parse(userProfile) }));
+    }
+
+
     this.router.events.subscribe((event) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -36,7 +50,17 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.isLoggedIn$ = this.store.pipe(
+      select(isLoggedIn)
+    );
+
+    this.isLoggedOut$ = this.store.pipe(
+      select(isLoggedOut)
+    );
   }
 
-  logout() {}
+  logout() {
+    this.store.dispatch(logout());
+  }
 }
