@@ -7,10 +7,7 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <mat-table
-    class="lessons-table mat-elevation-z8"
-    [dataSource]="lessons$ | async"
-  >
+  <mat-table class="lessons-table mat-elevation-z8" [dataSource]="lessons$ | async">
     <ng-container matColumnDef="seqNo">
       <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
 
@@ -22,7 +19,7 @@
 
       <mat-cell class="description-cell" *matCellDef="let lesson">{{
         lesson.description
-      }}</mat-cell>
+        }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="duration">
@@ -30,7 +27,7 @@
 
       <mat-cell class="duration-cell" *matCellDef="let lesson">{{
         lesson.duration
-      }}</mat-cell>
+        }}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -38,12 +35,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
 
-  <button
-    class="bottom-toolbar"
-    mat-raised-button
-    color="accent"
-    (click)="loadLessonsPage(course)"
-  >
+  <button class="bottom-toolbar" mat-raised-button color="accent" (click)="loadLessonsPage(course)">
     Load More
   </button>
 </div>
